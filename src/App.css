@@ -5,11 +5,31 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.app{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  color: white;
+}
+
+.header .logo {
+  font-size: 20px;
+  border-radius: 50%;
+  width: 150px;
+  /* padding: 1.5em; */
+  /* position: centre; */
+  /* will-change: filter;
+  transition: filter 300ms; */
+  max-width: 100%;
+  height: auto;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -18,25 +38,25 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header .title h1{margin: 0; font-size:18px}
+
+/* Body */
+.body{
+  display:flex;
+  flex: 1
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Side */
+.aside{width: 200px; background: white; padding: 16px; border-right: 1px solid #eee}
+.aside nav ul{padding: 0; list-style: none; margin: 0}
+.aside nav li{padding: 8px; cursor: pointer; border-radius: 4px}
+
+/* Main */
+.main{
+  flex: 1;
+  padding: 20px;
 }
 
-.card {
-  padding: 2em;
-}
 
-.read-the-docs {
-  color: #888;
-}
+
+
