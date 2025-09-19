@@ -21,12 +21,12 @@ Download the dependencies
 
 Start the development server
 ```bash
-    npm run start
+    npm run dev
 ```
 
 View the application
 ```bash
-    http://localhost:3000
+    http://localhost:5173
 ```
 
 ## Style Guide / Conventions
