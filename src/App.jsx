@@ -1,18 +1,34 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import hlogo from './assets/HLogo.jpg';
 
 function App() {
   const customerList = [
-    { id: 1, name: "Sam Smith", email: "samsmith@adp.com", password: "sam1234" }
-  ];
+    { id: 1, name: "Sam Smith", email: "samsmith@adp.com", password: "sam1234" },
+    { id: 2, name: "Sam Smyth", email: "samsmith2@adp.com", password: "sam12345" },
+    { id: 3, name: "Sam Smih", email: "samsmith3@adp.com", password: "sam1234567" },
+    { id: 4, name: "Samm Sith", email: "samsmith4@adp.com", password: "sam1234567" }
+  ];5
 
   const [customers, setCustomers] = useState(customerList);
   const [view, setView] = useState('Home');
 
+  const [selectedArticleId, setSelectedArticleId] = useState(-1);
+
+  const selectArticle = function(artId) {
+    if (selectedArticleId == artId) {
+      setSelectedArticleId(-1);
+      console.log(`Customer ${artId} was deselected`);
+    } else {
+      setSelectedArticleId(artId)
+      console.log(`Customer ${artId} was selected`);
+    }
+  }
+
   return (
     <div className='app'>
       <header className='header'><h1>Hogwarts Finest Customer List</h1>
-        <img src="./public/HLogo.jpg" alt='Logo' className='logo'/>
+        <img src={hlogo} alt='Logo' className='logo' />
       </header>
 
       {/* Body */}
@@ -53,22 +69,27 @@ function App() {
                 <tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th></tr>
               </thead>
               <tbody>
-                <ul className='customerList'>
-                  {customerList.map((customers) => {
-                    return (
-                      <li key={customers.id}>
-                        {customers.id},
-                        {customers.name},
-                        {customers.email},
-                        {customers.password}
-                      </li>
-                      );
-                      console.log(`${customerList[0].name} Here are the customers!`);
-                      })
-                    }
-                </ul>
+                <tr><td>A</td><td>B</td><td>C</td><td>D</td></tr>
               </tbody>
             </table>
+            <ul className='customerList'>
+              {customerList.map((customers, index) => {
+                return (
+                  <li key={customers.id} onClick={(_) => selectArticle(customers.id)} className={(selectedArticleId == customers.id) ? 'selected' : ''}>
+                    {customers.id},
+                    {customers.name},
+                    {customers.email},
+                    {customers.password}
+                  </li>
+                );
+              })
+              }
+            </ul>
+            <div>
+              <button id="add-btn" onClick={() => console.log(`Just pressed the add-btn`)}>ADD CUSTOMER</button>
+              <button id="edit-btn" onClick={() => console.log(`Just pressed the edit-btn`)}>EDIT CUSTOMER</button>
+              <button id="delete-btn" onClick={() => console.log(`Just pressed the delete-btn`)}>DELETE CUSTOMER</button>
+            </div>
           </section>
         )}
 
