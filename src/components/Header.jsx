@@ -1,3 +1,4 @@
+import '../styles/Body.css';
 import hlogo from '../assets/HLogo.jpg';
 
 function Header() {

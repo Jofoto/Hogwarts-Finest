@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/Body.css';
 
 function Body(){
     const customerList = [
@@ -66,9 +67,9 @@ function Body(){
               {customerList.map((customers, index) => {
                 return (
                   <li key={customers.id} onClick={(_) => selectArticle(customers.id)} className={(selectedArticleId == customers.id) ? 'selected' : ''}>
-                    {customers.id},
-                    {customers.name},
-                    {customers.email},
+                    {customers.id}, <span id='space'></span>
+                    {customers.name}, <span id='space'></span>
+                    {customers.email}, <span id='space'></span>
                     {customers.password}
                   </li>
                 );
