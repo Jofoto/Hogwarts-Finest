@@ -1,3 +1,5 @@
+
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -16,8 +18,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 24px;
+  border-bottom: 4px solid black;
+  border-radius: 0 0 12px 12px;
+  background: rgb(110, 32, 110);
   padding: 12px 18px;
-  color: white;
+  color: #eeba30;
+  margin-left: 180px;
+  margin-right: -10px;
 }
 
 .header .logo {
@@ -47,13 +55,47 @@
 }
 
 /* Side */
-.aside{width: 200px; background: white; padding: 16px; border-right: 1px solid #eee}
-.aside nav ul{padding: 0; list-style: none; margin: 0}
-.aside nav li{padding: 8px; cursor: pointer; border-radius: 4px}
+.aside{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background: rgb(110, 32, 110);
+  padding-top: 100px;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.2);
+}
+.aside nav ul{
+  padding: 0;
+  list-style: none;
+  margin: 0
+}
+.aside nav li{
+  padding: 12px 20px;
+  cursor: pointer; 
+  color: White;
+  transition: background 0.2s;
+}
+
+.aside nav li:hover{
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.aside nav li.active {
+  background: rgb(110, 32, 110);
+  color: #eeba30;
+  font-weight:bold;
+  border-left: 4px solid #eeba30;
+}
+
+
 
 /* Main */
 .main{
   flex: 1;
+  padding: 20px;
+  margin-left:220px;
   padding: 20px;
 }
 
