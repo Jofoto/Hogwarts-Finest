@@ -1,10 +1,16 @@
 import '../styles/Footer.css';
 
 function Footer() {
+    const currentYear = new Date().getFullYear();
     return (
-        <footer className='footer'>
-            <div>Wizards' Finest</div>
-        </footer>
+        <>
+            <footer className='footer'>
+                <hr />
+                <div>
+                    {currentYear} &copy; Created by Wizards' Finest <br />
+                </div>
+            </footer>
+        </>
     )
 }
 

@@ -1,0 +1,12 @@
+li {
+    margin-bottom: 10px;
+    list-style-type: none;
+}
+
+#space {
+    margin-right: 2px;
+}
+
+.selected {
+  font-weight: bold;
+}
