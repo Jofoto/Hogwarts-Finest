@@ -8,13 +8,11 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['src/tests/**/*.vitest.jsx'],
-  },
-  test: { // Threshold brings CI Pipeline to fail
-    coverage: {
+    coverage: { // Threshold brings CI Pipeline to fail
       statements: 0,
       branches: 0,
       functions: 0,
       lines: 0,
     }
-  }
+  },
 })
