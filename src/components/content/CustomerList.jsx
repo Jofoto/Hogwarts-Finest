@@ -1,21 +1,26 @@
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import '../../styles/CustomerList.css';
 
+import { getAll, get, post, put, deleteById } from '../../memdb.js';
+
 function CustomerList() {
-    const customerList = [
-        { id: 1, name: "Sam Smith", email: "samsmith@adp.com", password: "sam1234" },
-        { id: 2, name: "Sam Smyth", email: "samsmith2@adp.com", password: "sam12345" },
-        { id: 3, name: "Sam Smih", email: "samsmith3@adp.com", password: "sam1234567" },
-        { id: 4, name: "Samm Sith", email: "samsmith4@adp.com", password: "sam1234567" }
-    ];
+    // const customerList = [
+    //     { id: 1, name: "Sam Smith", email: "samsmith@adp.com", password: "sam1234" },
+    //     { id: 2, name: "Sam Smyth", email: "samsmith2@adp.com", password: "sam12345" },
+    //     { id: 3, name: "Sam Smih", email: "samsmith3@adp.com", password: "sam1234567" },
+    //     { id: 4, name: "Samm Sith", email: "samsmith4@adp.com", password: "sam1234567" }
+    // ];
 
     const initalFormCustomer = { id: -1, name: "", email: "", password: "" };
+
     const [formCustomer, setFormCustomer] = useState(initalFormCustomer);
-
-    const [customers, setCustomers] = useState(customerList);
-
+    const [customers, setCustomers] = useState([]);
     const [selectCustomerId, setselectCustomerId] = useState(-1);
+
+    //Get all wizards from memdb
+    useEffect(() => {
+        setCustomers(getAll());
+    }, []);
 
     const resetFormCustomer = () => setFormCustomer(initalFormCustomer);
 
@@ -26,7 +31,8 @@ function CustomerList() {
             console.log(`Customer ${artId} was deselected`);
         } else {
             setselectCustomerId(artId);
-            const selected = customers.find(c => c.id === artId);
+            // const selected = customers.find(c => c.id === artId);
+            const selected = get(artId); //memdb
             setFormCustomer(selected || initalFormCustomer);
             console.log(`Customer ${artId} was selected`);
         }
@@ -48,17 +54,23 @@ function CustomerList() {
     }
 
     const addCustomer = function () {
-        const id = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
-        const newCustomer = { ...formCustomer, id: id };
-        setCustomers([...customers, newCustomer]);
+        // const id = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
+        // const newCustomer = { ...formCustomer, id: id };
+        post({ ...formCustomer }); //memdb post
+        // setCustomers([...customers, newCustomer]);
+        const updated = getAll(); //memdb getall
+        const newCustomer = updated[updated.length - 1];
+        setCustomers(updated);
         resetFormCustomer();
-        console.log(`Add customer with ID ${id}`);
+        console.log(`Add customer with ID ${newCustomer.id}`);
     }
 
     const deleteCustomer = function () {
         console.log(`Delete customer`);
-        if (validSelectedCustomerId('deleteCustomer()')) {
-            setCustomers(customers.filter(c => c.id !== selectCustomerId));
+        if (validSelectedCustomerId()) {
+            // setCustomers(customers.filter(c => c.id !== selectCustomerId));
+            deleteById(selectCustomerId); //delete from memdb
+            setCustomers(getAll());
             setselectCustomerId(-1);
             resetFormCustomer();
             console.log(`Customer ${selectCustomerId} deleted`);
@@ -66,10 +78,12 @@ function CustomerList() {
     }
 
     const updateCustomer = function () {
-        if (validSelectedCustomerId('updateCustomer')) {
-            setCustomers(customers.map(c =>
-                c.id === selectCustomerId ? { ...formCustomer, id: selectCustomerId } : c
-            ));
+        if (validSelectedCustomerId()) {
+            // setCustomers(customers.map(c =>
+            //     c.id === selectCustomerId ? { ...formCustomer, id: selectCustomerId } : c
+            // ));
+            put(selectCustomerId, {...formCustomer, id: selectCustomerId}); //memdb put/update 
+            setCustomers(getAll());
             setselectCustomerId(-1);
             resetFormCustomer();
             console.log(`Customer ${selectCustomerId} updated`);
@@ -88,7 +102,7 @@ function CustomerList() {
                         <tr><td>A</td><td>B</td><td>C</td><td>D</td></tr>
                     </tbody>
                 </table>
-                <ul className='customerList'>
+                <ul className='CustomerList'>
                     {customers.map((cust, index) => {
                         return (
                             <li key={cust.id} onClick={(_) => selectCustomer(cust.id)} className={(selectCustomerId == cust.id) ? 'selected' : ''}>
