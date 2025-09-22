@@ -52,7 +52,9 @@ Naming a Bug or Hotfix Branch
 `bug/[bug-to-solve]` or `hotfix/[hot-fix-to-solve]`
 
 ## Testing (QA)
-Run `npm run vtest` to run `vitests`.
+Run `npm run vitest` to run `vitests`.
+
+Run `npm run vitest-con` to get the `vitest` test coverage.
 
 Run `npm run jtest` to run `jests`.
 
