@@ -3,26 +3,23 @@ import '../../styles/CustomerList.css';
 
 import { getAll, get, post, put, deleteById } from '../../memdb.js';
 
-function CustomerList() {
-    // const customerList = [
-    //     { id: 1, name: "Sam Smith", email: "samsmith@adp.com", password: "sam1234" },
-    //     { id: 2, name: "Sam Smyth", email: "samsmith2@adp.com", password: "sam12345" },
-    //     { id: 3, name: "Sam Smih", email: "samsmith3@adp.com", password: "sam1234567" },
-    //     { id: 4, name: "Samm Sith", email: "samsmith4@adp.com", password: "sam1234567" }
-    // ];
 
-    const initalFormCustomer = { id: -1, name: "", email: "", password: "" };
+function CustomerList({onDelete, setSelectedCustomer, setView}) {
 
-    const [formCustomer, setFormCustomer] = useState(initalFormCustomer);
+    const initialFormCustomer = { id: -1, name: "", email: "", password: "" };
+
+    const [formCustomer, setFormCustomer] = useState(initialFormCustomer);
     const [customers, setCustomers] = useState([]);
     const [selectCustomerId, setselectCustomerId] = useState(-1);
+
+    // const [view, setView] = useState('List');
 
     //Get all wizards from memdb
     useEffect(() => {
         setCustomers(getAll());
     }, []);
 
-    const resetFormCustomer = () => setFormCustomer(initalFormCustomer);
+    const resetFormCustomer = () => setFormCustomer(initialFormCustomer);
 
     const selectCustomer = function (artId) {
         if (selectCustomerId == artId) {
@@ -33,7 +30,7 @@ function CustomerList() {
             setselectCustomerId(artId);
             // const selected = customers.find(c => c.id === artId);
             const selected = get(artId); //memdb
-            setFormCustomer(selected || initalFormCustomer);
+            setFormCustomer(selected || initialFormCustomer);
             console.log(`Customer ${artId} was selected`);
         }
     }
@@ -44,33 +41,12 @@ function CustomerList() {
         return isValid;
     }
 
-    const changeHandler = function (event) {
-        const { name, value } = event.target;
-        console.log(`changeHandler(). Register input: Name ${name}, Val: ${value}`);
-        setFormCustomer(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    }
-
-    const addCustomer = function () {
-        // const id = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
-        // const newCustomer = { ...formCustomer, id: id };
-        post({ ...formCustomer }); //memdb post
-        // setCustomers([...customers, newCustomer]);
-        const updated = getAll(); //memdb getall
-        const newCustomer = updated[updated.length - 1];
-        setCustomers(updated);
-        resetFormCustomer();
-        console.log(`Add customer with ID ${newCustomer.id}`);
-    }
-
     const deleteCustomer = function () {
         console.log(`Delete customer`);
         if (validSelectedCustomerId()) {
             // setCustomers(customers.filter(c => c.id !== selectCustomerId));
-            deleteById(selectCustomerId); //delete from memdb
-            setCustomers(getAll());
+            onDelete(selectCustomerId); //delete from memdb
+            // setCustomers(getAll());
             setselectCustomerId(-1);
             resetFormCustomer();
             console.log(`Customer ${selectCustomerId} deleted`);
@@ -82,11 +58,16 @@ function CustomerList() {
             // setCustomers(customers.map(c =>
             //     c.id === selectCustomerId ? { ...formCustomer, id: selectCustomerId } : c
             // ));
-            put(selectCustomerId, {...formCustomer, id: selectCustomerId}); //memdb put/update 
-            setCustomers(getAll());
-            setselectCustomerId(-1);
-            resetFormCustomer();
-            console.log(`Customer ${selectCustomerId} updated`);
+            const cust = customers.find(c => c.id === selectCustomerId);
+            if (!cust) return;
+            setSelectedCustomer(cust); 
+            setView('Add');
+            console.log(`Navigating to ADD with customer id ${cust.id}`);
+            // onUpdate(selectCustomerId, {...formCustomer, id: selectCustomerId}); //memdb put/update 
+            // setCustomers(getAll());
+            // setselectCustomerId(-1);
+            // resetFormCustomer();
+            // console.log(`Customer ${selectCustomerId} updated`);
         }
     }
 
@@ -117,15 +98,15 @@ function CustomerList() {
                 </ul>
                 <div>
                     <h3>Customer Functionality</h3>
-                    <form>
+                     {/* <form>
                         <label name="name">Name</label>
                         <input type={"text"} name={"name"} value={formCustomer.name} onChange={(e) => changeHandler(e)} /><br />
                         <label name="email">Email</label>
                         <input type={"text"} name={"email"} value={formCustomer.email} onChange={(e) => changeHandler(e)} /><br />
                         <label name="password">Password</label>
                         <input type={"text"} name={"password"} value={formCustomer.password} onChange={(e) => changeHandler(e)} />
-                    </form>
-                    <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
+                    </form> */}
+                    {/*<button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button> */}
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClick={deleteCustomer} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
                 </div>

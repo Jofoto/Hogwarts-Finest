@@ -1,15 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Home from './content/Home.jsx';
 import Add from './content/Add.jsx';
 import Search from './content/Search.jsx';
 import CustomerList from './content/CustomerList.jsx';
+import { getAll, post, put, deleteById } from '../memdb.js';
 
 import '../styles/Body.css';
 
 function Body() {
 
   const [view, setView] = useState('Home');
+  const [customers, setCustomers] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+    //Get all wizards from memdb
+    useEffect(() => {
+        setCustomers(getAll());
+    }, []);
+
+    const handleAdd = (customer) => {
+        post(customer);
+        setCustomers(getAll());
+    }
+
+    const handleUpdate = (id, customer) => {
+        put(id, customer);
+        setCustomers(getAll());
+    }
+
+    const handleDelete = (id) => {
+        deleteById(id);
+        setCustomers(getAll());
+    }
 
   return (
     <div>
@@ -32,12 +55,22 @@ function Body() {
 
         {/* Add */}
         {view === 'Add' && (
-          <Add />
+          <Add
+            onAdd={handleAdd}
+            onUpdate={handleUpdate}
+            selectedCustomer={selectedCustomer} setView={setView}
+            customers={customers} 
+        />
         )}
 
         {/* List */}
         {view === 'List' && (
-          <CustomerList />
+          <CustomerList 
+            customers={customers}
+            // onUpdate={handleUpdate}
+            onDelete={handleDelete} 
+            setSelectedCustomer={setSelectedCustomer}
+            setView={setView}/>
         )}
 
         {view === 'Search' && (
