@@ -61,6 +61,10 @@ Run `npm run jtest` to run `jests`.
 ## CI/CD
 Pushing to `development` or `main` will run all `vtests` and `jest tests`.
 
-To create a release push a new Tag.
+To create a release push a new Tag to the development or main branch.
+
+Tag format for `main`: `v[0-9].[0-9].[0-9]`.
+
+Tag format for `development`: `v[0-9].[0-9].[0-9]-rc`.
 
 If all tests are passing the `CD Pipeline` will create a build and a new release.
