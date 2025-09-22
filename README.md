@@ -50,3 +50,15 @@ Naming a Feature Branch
 Naming a Bug or Hotfix Branch
 
 `bug/[bug-to-solve]` or `hotfix/[hot-fix-to-solve]`
+
+## Testing (QA)
+Run `npm run vtest` to run `vitests`.
+
+Run `npm run jtest` to run `jests`.
+
+## CI/CD
+Pushing to `development` or `main` will run all `vtests` and `jest tests`.
+
+To create a release push a new Tag.
+
+If all tests are passing the `CD Pipeline` will create a build and a new release.
