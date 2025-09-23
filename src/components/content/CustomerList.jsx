@@ -2,29 +2,36 @@ import { useEffect, useState } from 'react';
 import '../../styles/CustomerList.css';
 
 
+
+
 function CustomerList({ setSelectedCustomer, setView }) {
 
     const initialFormCustomer = { id: -1, name: "", email: "", password: "" };
 
+    const pageSize = 10;
+    const [page, setPage] = useState(1);
+
     const [formCustomer, setFormCustomer] = useState(initialFormCustomer);
     const [customers, setCustomers] = useState([]);
     const [selectCustomerId, setselectCustomerId] = useState(-1);
+    const [morePages, setMorePages] = useState(true)
 
     const resetFormCustomer = () => setFormCustomer(initialFormCustomer);
 
-    async function getCustomerList() {
-        const custo = fetch(`http://localhost:4000/customers`)
-            .then(res => res.json())
+    async function getCustomerList(pageNum = page) {
+        const custo = fetch(`http://localhost:4000/customers?_page=${pageNum}&_limit=${pageSize}`)
+            .then(res =>  res.json())
             .then(data => {
                 console.log(data)
                 setCustomers(data)
+                setMorePages(data.length === pageSize);
             })
             .catch(err => console.error("error fetching:", err));
 
     }
     useEffect(() => {
         getCustomerList()
-    }, []);
+    }, [page]);
 
     const getCustomer = function (id) {
         fetch(`http://localhost:4000/customers/${id}` , {method: "GET"})
@@ -107,6 +114,8 @@ function CustomerList({ setSelectedCustomer, setView }) {
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
                     <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL</button>
+                    <button id="prev-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Previous 10</button>
+                    <button id="next-btn" onClick={() => setPage(p => Math.max(1, p + 1))} disabled={!morePages}>Next 10</button>
                 </div>
             </section>
         </>
