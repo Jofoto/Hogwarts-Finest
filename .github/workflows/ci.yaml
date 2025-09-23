@@ -1,0 +1,41 @@
+name: 'CI Pipeline | Run Tests'
+
+on:
+  push:
+    branches:
+      - '**'
+    tag-ignore:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Vitest
+        run: npm run vitest
+
+      - name: Run Vitest Coverage
+        run: npm run vitest-cov
+
+      - name: Run Jest
+        run: npm run jtest

@@ -1,0 +1,79 @@
+name: 'CD Pipeline | Build App and Create Release'
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - '*-rc'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Vitest
+        run: npm run vitest
+
+      - name: Run Vitest Coverage
+        run: npm run vitest-cov
+
+      - name: Run Jest
+        run: npm run jtest
+
+
+  cd:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build app
+        run: npm run build
+
+      - name: Get last commit info
+        id: last_commit
+        run: |
+          echo "msg=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          git show -1 --pretty=format:%b
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: "${{ github.ref_name }} - ${{ steps.last_commit.outputs.msg }}"
+          body: ${{ steps.last_commit.outputs.body }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-rc') }}
