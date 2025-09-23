@@ -69,7 +69,6 @@ function Body() {
         {view === 'List' && (
           <CustomerList 
             customers={customers}
-            // onUpdate={handleUpdate}
             onDelete={handleDelete} 
             setSelectedCustomer={setSelectedCustomer}
             setView={setView}/>

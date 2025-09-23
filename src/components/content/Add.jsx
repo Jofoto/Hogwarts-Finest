@@ -3,11 +3,6 @@ import { useState, useEffect } from "react";
 function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView }) {
     const initialForm = { id: -1, name: "", email: "", password: "" };
     const [formCustomer, setFormCustomer] = useState(initialForm);
-    // const [customers, setCustomers] = useState([]);
-    // const [selectCustomerId, setselectCustomerId] = useState(-1);
-
-    // const resetFormCustomer = () => setFormCustomer(initialFormCustomer);
-    // const [view, setView] = useState('Add');
 
     useEffect(() => {
         if (selectedCustomer) {
@@ -16,26 +11,6 @@ function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView }
             setFormCustomer(initialForm);
         }
     }, [selectedCustomer])
-
-    // const selectCustomer = function (artId) {
-    //     if (selectCustomerId == artId) {
-    //         setselectCustomerId(-1);
-    //         resetFormCustomer();
-    //         console.log(`Customer ${artId} was deselected`);
-    //     } else {
-    //         setselectCustomerId(artId);
-    //         // const selected = customers.find(c => c.id === artId);
-    //         const selected = get(artId); //memdb
-    //         setFormCustomer(selected || initalFormCustomer);
-    //         console.log(`Customer ${artId} was selected`);
-    //     }
-    // }
-
-    // const validSelectedCustomerId = function (caller = '') {
-    //     const isValid = customers.some(c => c.id === selectCustomerId);
-    //     console.log(`Validate selectedCustomerId: ${isValid}. Caller: ${caller}`);
-    //     return isValid;
-    // }
 
     const changeHandler = function (event) {
         const { name, value } = event.target;
@@ -63,8 +38,6 @@ function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView }
             onUpdate(formCustomer.id, formCustomer);
             console.log(`Updated Wizard ${formCustomer.id}`);
         }
-        // const id = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
-        // const newCustomer = { ...formCustomer, id: id };
        setFormCustomer(initialForm);
        setSelectedCustomer(null);
        setView('List'); //redirect

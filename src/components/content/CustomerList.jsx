@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../../styles/CustomerList.css';
 
-import { getAll, get, post, put, deleteById } from '../../memdb.js';
+import { getAll, get } from '../../memdb.js';
 
 
 function CustomerList({onDelete, setSelectedCustomer, setView}) {
@@ -12,7 +12,6 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
     const [customers, setCustomers] = useState([]);
     const [selectCustomerId, setselectCustomerId] = useState(-1);
 
-    // const [view, setView] = useState('List');
 
     //Get all wizards from memdb
     useEffect(() => {
@@ -28,7 +27,6 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
             console.log(`Customer ${artId} was deselected`);
         } else {
             setselectCustomerId(artId);
-            // const selected = customers.find(c => c.id === artId);
             const selected = get(artId); //memdb
             setFormCustomer(selected || initialFormCustomer);
             console.log(`Customer ${artId} was selected`);
@@ -44,9 +42,7 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
     const deleteCustomer = function () {
         console.log(`Delete customer`);
         if (validSelectedCustomerId()) {
-            // setCustomers(customers.filter(c => c.id !== selectCustomerId));
             onDelete(selectCustomerId); //delete from memdb
-            // setCustomers(getAll());
             setselectCustomerId(-1);
             resetFormCustomer();
             console.log(`Customer ${selectCustomerId} deleted`);
@@ -55,19 +51,11 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
 
     const updateCustomer = function () {
         if (validSelectedCustomerId()) {
-            // setCustomers(customers.map(c =>
-            //     c.id === selectCustomerId ? { ...formCustomer, id: selectCustomerId } : c
-            // ));
             const cust = customers.find(c => c.id === selectCustomerId);
             if (!cust) return;
             setSelectedCustomer(cust); 
             setView('Add');
             console.log(`Navigating to ADD with customer id ${cust.id}`);
-            // onUpdate(selectCustomerId, {...formCustomer, id: selectCustomerId}); //memdb put/update 
-            // setCustomers(getAll());
-            // setselectCustomerId(-1);
-            // resetFormCustomer();
-            // console.log(`Customer ${selectCustomerId} updated`);
         }
     }
 
@@ -98,15 +86,6 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
                 </ul>
                 <div>
                     <h3>Customer Functionality</h3>
-                     {/* <form>
-                        <label name="name">Name</label>
-                        <input type={"text"} name={"name"} value={formCustomer.name} onChange={(e) => changeHandler(e)} /><br />
-                        <label name="email">Email</label>
-                        <input type={"text"} name={"email"} value={formCustomer.email} onChange={(e) => changeHandler(e)} /><br />
-                        <label name="password">Password</label>
-                        <input type={"text"} name={"password"} value={formCustomer.password} onChange={(e) => changeHandler(e)} />
-                    </form> */}
-                    {/*<button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button> */}
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClick={deleteCustomer} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
                 </div>
