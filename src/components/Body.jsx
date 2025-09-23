@@ -14,10 +14,14 @@ function Body() {
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
+  const highestCustomerId = function () {
+    return customers.length > 0 ? Math.max(...customers.map(c => c.id)) : 0;
+}
+
     //Get all wizards from memdb
-    useEffect(() => {
-        setCustomers(getAll());
-    }, []);
+    // useEffect(() => {
+    //     setCustomers(getAll());
+    // }, []);
 
     const handleAdd = (customer) => {
         post(customer);
@@ -61,7 +65,8 @@ function Body() {
             selectedCustomer={selectedCustomer} 
             setSelectedCustomer={setSelectedCustomer}
             setView={setView}
-            customers={customers} 
+            customers={customers}
+            highestCustomerId={highestCustomerId} 
         />
         )}
 
@@ -71,7 +76,8 @@ function Body() {
             customers={customers}
             onDelete={handleDelete} 
             setSelectedCustomer={setSelectedCustomer}
-            setView={setView}/>
+            setView={setView}
+            highestCustomerId={highestCustomerId}/>
         )}
 
         {view === 'Search' && (

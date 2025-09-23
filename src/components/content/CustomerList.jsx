@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import '../../styles/CustomerList.css';
 
-import { getAll, get } from '../../memdb.js';
 
-
-function CustomerList({onDelete, setSelectedCustomer, setView}) {
+function CustomerList({ setSelectedCustomer, setView }) {
 
     const initialFormCustomer = { id: -1, name: "", email: "", password: "" };
 
@@ -12,24 +10,45 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
     const [customers, setCustomers] = useState([]);
     const [selectCustomerId, setselectCustomerId] = useState(-1);
 
-
-    //Get all wizards from memdb
-    useEffect(() => {
-        setCustomers(getAll());
-    }, []);
+    // //Get all wizards from memdb
+    // useEffect(() => {
+    //     setCustomers(getAll());
+    // }, []);
 
     const resetFormCustomer = () => setFormCustomer(initialFormCustomer);
 
-    const selectCustomer = function (artId) {
-        if (selectCustomerId == artId) {
+    async function getCustomerList() {
+        const custo = fetch(`http://localhost:4000/customers`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setCustomers(data)
+            })
+            .catch(err => console.error("error fetching:", err));
+
+    }
+    useEffect(() => {
+        getCustomerList()
+    }, []);
+
+    const getCustomer = function (id) {
+        fetch(`http://localhost:4000/customers/${id}` , {method: "GET"})
+        .then(res => res.json())
+        .then(data => {return data})
+        .catch(err => console.error("error fetching", err));
+    }
+
+
+    const selectCustomer = function (cId) {
+        if (selectCustomerId == cId) {
             setselectCustomerId(-1);
             resetFormCustomer();
-            console.log(`Customer ${artId} was deselected`);
+            console.log(`Customer ${cId} was deselected`);
         } else {
-            setselectCustomerId(artId);
-            const selected = get(artId); //memdb
+            setselectCustomerId(cId);
+            const selected = getCustomer(cId);
             setFormCustomer(selected || initialFormCustomer);
-            console.log(`Customer ${artId} was selected`);
+            console.log(`Customer ${cId} was selected`);
         }
     }
 
@@ -39,21 +58,25 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
         return isValid;
     }
 
-    const deleteCustomer = function () {
-        console.log(`Delete customer`);
-        if (validSelectedCustomerId()) {
-            onDelete(selectCustomerId); //delete from memdb
-            setselectCustomerId(-1);
-            resetFormCustomer();
-            console.log(`Customer ${selectCustomerId} deleted`);
-        }
+    const deleteCustomer = (id) => {
+        fetch(`http://localhost:4000/customers/${id}`, { method: "DELETE" })
+            .then(res => {
+                if (validSelectedCustomerId('deleteCustomer()')) {
+                    setCustomers(prev => prev.filter(c => c.id !== id));
+                    setselectCustomerId(-1);
+                    resetFormCustomer();
+                    console.log(`Customer ${selectCustomerId} deleted`);
+                } else { throw new Error("Failed to delete") }
+
+            })
+            .catch(err => console.error("Error deleting:", err));
     }
 
     const updateCustomer = function () {
         if (validSelectedCustomerId()) {
             const cust = customers.find(c => c.id === selectCustomerId);
             if (!cust) return;
-            setSelectedCustomer(cust); 
+            setSelectedCustomer(cust);
             setView('Add');
             console.log(`Navigating to ADD with customer id ${cust.id}`);
         }
@@ -87,11 +110,13 @@ function CustomerList({onDelete, setSelectedCustomer, setView}) {
                 <div>
                     <h3>Customer Functionality</h3>
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
-                    <button id="delete-btn" onClick={deleteCustomer} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
+                    <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
+                    <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL</button>
                 </div>
             </section>
         </>
     );
 }
+
 
 export default CustomerList;
