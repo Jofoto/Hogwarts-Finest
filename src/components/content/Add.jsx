@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView, highestCustomerId }) {
+function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId }) {
     const initialForm = { id: -1, name: "", email: "", password: "" };
     const [formCustomer, setFormCustomer] = useState(initialForm);
 
@@ -39,11 +39,8 @@ function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView, 
         })
             .then(res => res.json())
             .then(newCustomer => {
-                //console.log(id)
                 newCustomer = { ...newCustomer, id: id };
                 console.log(newCustomer.id)
-                //setCustomers([...customers, newCustomer]);
-                //resetFormCustomer();
             })
             .catch(err => console.error("Error:", err));
     }
@@ -59,9 +56,6 @@ function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView, 
         })
         .then(res => res.json())
         .then(updated => {
-            //setCustomers(prev => prev.map(c => (c.id === id ? { ...formCustomer, id: id } : c)));
-            //setselectCustomerId(-1);
-            //resetFormCustomer();
             console.log(`Customer ${id} updated`);
         })
         .catch(err => console.error("Update failed:", err));

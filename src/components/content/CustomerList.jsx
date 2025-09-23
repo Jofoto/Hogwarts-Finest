@@ -10,11 +10,6 @@ function CustomerList({ setSelectedCustomer, setView }) {
     const [customers, setCustomers] = useState([]);
     const [selectCustomerId, setselectCustomerId] = useState(-1);
 
-    // //Get all wizards from memdb
-    // useEffect(() => {
-    //     setCustomers(getAll());
-    // }, []);
-
     const resetFormCustomer = () => setFormCustomer(initialFormCustomer);
 
     async function getCustomerList() {

@@ -4,7 +4,6 @@ import Home from './content/Home.jsx';
 import Add from './content/Add.jsx';
 import Search from './content/Search.jsx';
 import CustomerList from './content/CustomerList.jsx';
-import { getAll, post, put, deleteById } from '../memdb.js';
 
 import '../styles/Body.css';
 
@@ -17,26 +16,6 @@ function Body() {
   const highestCustomerId = function () {
     return customers.length > 0 ? Math.max(...customers.map(c => c.id)) : 0;
 }
-
-    //Get all wizards from memdb
-    // useEffect(() => {
-    //     setCustomers(getAll());
-    // }, []);
-
-    const handleAdd = (customer) => {
-        post(customer);
-        setCustomers(getAll());
-    }
-
-    const handleUpdate = (id, customer) => {
-        put(id, customer);
-        setCustomers(getAll());
-    }
-
-    const handleDelete = (id) => {
-        deleteById(id);
-        setCustomers(getAll());
-    }
 
   return (
     <div>
@@ -60,8 +39,6 @@ function Body() {
         {/* Add */}
         {view === 'Add' && (
           <Add
-            onAdd={handleAdd}
-            onUpdate={handleUpdate}
             selectedCustomer={selectedCustomer} 
             setSelectedCustomer={setSelectedCustomer}
             setView={setView}
@@ -74,10 +51,8 @@ function Body() {
         {view === 'List' && (
           <CustomerList 
             customers={customers}
-            onDelete={handleDelete} 
             setSelectedCustomer={setSelectedCustomer}
-            setView={setView}
-            highestCustomerId={highestCustomerId}/>
+            setView={setView}/>
         )}
 
         {view === 'Search' && (
