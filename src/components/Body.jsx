@@ -40,7 +40,7 @@ function Body() {
         <aside className='aside'>
           <nav>
             <li className={view === 'Home' ? 'active' : ''} onClick={() => setView('Home')}>Home</li>
-            <li className={view === 'Add' ? 'active' : ''} onClick={() => setView('Add')}>Add</li>
+            <li className={view === 'Add' ? 'active' : ''} onClick={() => setView('Add')}>Add / Update</li>
             <li className={view === 'List' ? 'active' : ''} onClick={() => setView('List')}>List</li>
             <li className={view === 'Search' ? 'active' : ''} onClick={() => setView('Search')}>Search</li>
           </nav>
@@ -58,7 +58,9 @@ function Body() {
           <Add
             onAdd={handleAdd}
             onUpdate={handleUpdate}
-            selectedCustomer={selectedCustomer} setView={setView}
+            selectedCustomer={selectedCustomer} 
+            setSelectedCustomer={setSelectedCustomer}
+            setView={setView}
             customers={customers} 
         />
         )}

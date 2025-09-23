@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function Add({onAdd, onUpdate, selectedCustomer, setView}) {
+function Add({ onAdd, onUpdate, selectedCustomer, setSelectedCustomer, setView }) {
     const initialForm = { id: -1, name: "", email: "", password: "" };
     const [formCustomer, setFormCustomer] = useState(initialForm);
     // const [customers, setCustomers] = useState([]);
@@ -46,6 +46,12 @@ function Add({onAdd, onUpdate, selectedCustomer, setView}) {
         }));
     }
 
+    const cancelButton = () => {
+        setFormCustomer(initialForm);
+        setSelectedCustomer(null);
+        setView('List'); //redirect
+    }
+
     const addCustomer = function (e) {
         e.preventDefault();
         //Add wizard
@@ -60,6 +66,7 @@ function Add({onAdd, onUpdate, selectedCustomer, setView}) {
         // const id = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
         // const newCustomer = { ...formCustomer, id: id };
        setFormCustomer(initialForm);
+       setSelectedCustomer(null);
        setView('List'); //redirect
     }
 
@@ -77,6 +84,7 @@ function Add({onAdd, onUpdate, selectedCustomer, setView}) {
                     <input type="text" name="password" value={formCustomer.password} onChange={changeHandler}/>
 
                     <button type="submit">{formCustomer.id === -1 ? "ADD CUSTOMER" : "UPDATE CUSTOMER"}</button>
+                    <button onClick={cancelButton} disabled={formCustomer.id ==! -1}>CANCEL</button>
                 </form>
             </section>
         </>
