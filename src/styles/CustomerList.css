@@ -1,12 +1,115 @@
-li {
-    margin-bottom: 10px;
-    list-style-type: none;
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  font-family: Arial, sans-serif;
 }
 
-#space {
-    margin-right: 2px;
+.table th {
+  background: rgb(110, 32, 110);
+  color: white;
+  padding: 12px;
+  text-align: left;
+  border-radius: 6px 6px 0 0;
 }
 
-.selected {
-  font-weight: bold;
+.table td {
+  background: #fdfdfd;
+  padding: 12px 16px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
+.table tbody tr {
+  transition: background 0.2s, transform 0.1s;
+}
+
+.table tbody tr:hover td {
+  background: #f3e5f5;
+  transform: scale(1.01);
+}
+
+.table tbody tr.selected td {
+  background: #e1bee7;
+  font-weight: 600;
+}
+
+.table tbody tr { cursor:pointer; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+#edit-btn, #delete-btn, #cancel-btn, #prev-btn, #next-btn {
+  appearance: none;
+  border: 1px solid #e7e7f0;
+  background: #fff;
+  color: #1f2544;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor:pointer;
+  transition: transform .12s, box-shadow .12s, filter .12s, opacity .12s;
+}
+
+#edit-btn:hover, #delete-btn:hover, #cancel-btn:hover, #prev-btn:hover, #next-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08)
+}
+
+#edit-btn:disabled, #delete-btn:disabled, #cancel-btn:disabled, #prev-btn:disabled, #next-btn:disabled {
+  opacity: .55; cursor:not-allowed; transform:none; box-shadow: none;
+}
+
+#next-btn { background: #6a1b9a; color:#fff; border-color:transparent;}
+#next-btn:hover { filter:brightness(1.08); }
+
+#edit-btn { background:#faf7ff; border-color:#d9c7ff; color:#5a2aa6; }
+#delete-btn { background:#ffecec; border-color:#ffd0d0; color:#b12626; }
+
+#cancel-btn {
+  background: #f4f4f9;
+  border-color: #d0d0da;
+  color: #555;
+}
+
+#cancel:hover:not(:disabled) {
+  background: #e9e9f2;
+  border-color: #bcbcd0;
+}
+
+#prev-btn {
+  background: #ede7f6;
+  border-color: #d1c4e9;
+  color: #5e35b1;
+}
+
+#prev-btn:hover:not(:disabled) {
+  background: #d1c4e9;
+  border-color: #b39ddb;
+}
+
+section h2 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: rgb(110, 32, 110);
+  margin: 0 0 12px 0;
+  position: relative;
+}
+
+section h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: rgb(110, 32, 110);
+  margin: 6px auto;
+  border-radius: 2px;
+}
+
+section { max-width: 1100px; margin:0 auto; }

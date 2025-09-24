@@ -38,10 +38,10 @@ function CustomerList({ setSelectedCustomer, setView }) {
     }, [page]);
 
     const getCustomer = function (id) {
-        fetch(`http://localhost:4000/customers/${id}` , {method: "GET"})
-        .then(res => res.json())
-        .then(data => {return data})
-        .catch(err => console.error("error fetching", err));
+        fetch(`http://localhost:4000/customers/${id}`, { method: "GET" })
+            .then(res => res.json())
+            .then(data => { return data })
+            .catch(err => console.error("error fetching", err));
     }
 
 
@@ -97,29 +97,23 @@ function CustomerList({ setSelectedCustomer, setView }) {
                         <tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>A</td><td>B</td><td>C</td><td>D</td></tr>
+                        {customers.map((cust, idx) => (
+                            <tr key={cust.id}
+                                onClick={(_) => selectCustomer(cust.id)}
+                                className={(selectCustomerId == cust.id) ? 'selected' : ''}>
+                                <td>{cust.id}</td>
+                                <td>{cust.name}</td>
+                                <td>{cust.email}</td>
+                                <td>{cust.password}</td>
+                            </tr>
+                        ))}   
                     </tbody>
                 </table>
-                <ul className='CustomerList'>
-                    {customers.map((cust) => {
-                        return (
-                            <li key={cust.id} 
-                                onClick={(_) => selectCustomer(cust.id)} 
-                                className={(selectCustomerId == cust.id) ? 'selected' : ''}>
-                                {cust.id}, <span id='space'></span>
-                                {cust.name}, <span id='space'></span>
-                                {cust.email}, <span id='space'></span>
-                                {cust.password}
-                            </li>
-                        );
-                    })
-                    }
-                </ul>
-                <div>
-                    <h3>Customer Functionality</h3>
-                    <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
-                    <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
-                    <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL</button>
+                
+                <div className="actions">
+                    <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>Edit Customer</button>
+                    <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>Delete Customer</button>
+                    <button id="cancel-btn" onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>Cancel</button>
                     <button id="prev-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Previous 10</button>
                     <button id="next-btn" onClick={() => setPage(p => Math.max(1, p + 1))} disabled={!morePages}>Next 10</button>
                 </div>

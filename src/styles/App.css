@@ -73,6 +73,7 @@
 }
 .aside nav li{
   padding: 12px 20px;
+  font-size: 23px;
   cursor: pointer; 
   color: White;
   transition: background 0.2s;
@@ -80,7 +81,7 @@
 
 .aside nav li:hover{
   background: rgba(255, 255, 255, 0.1);
-  color: white;
+  color: #eeba30;
 }
 
 .aside nav li.active {
@@ -89,6 +90,9 @@
   font-weight:bold;
   border-left: 4px solid #eeba30;
 }
+
+
+
 
 
 
