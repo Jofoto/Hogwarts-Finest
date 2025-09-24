@@ -31,6 +31,10 @@ function Body() {
 
       <main className='main'>
         <Routes>
+
+        {/* Redirect root to /home */}
+        <Route path="/" element={<Navigate to="/home" />} />
+
         {/* Home */}
         <Route path="/home" element={<Home/>}/>
 
