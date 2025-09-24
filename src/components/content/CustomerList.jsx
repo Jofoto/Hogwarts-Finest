@@ -25,7 +25,8 @@ function CustomerList({ setSelectedCustomer, setView }) {
         const custo = fetch(`http://localhost:4000/customers?_page=${pageNum}&_limit=${pageSize}`)
             .then(res => res.json())
             .then(data => {
-                console.log(`Fetched Customers: \n${data}`)
+                console.log(`Fetched Customers:`);
+                console.log(data);
                 setCustomers(data)
                 setMorePages(data.length === pageSize);
             })
