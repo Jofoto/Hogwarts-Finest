@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId }) {
     const initialForm = { id: -1, name: "", email: "", password: "" };
     const [formCustomer, setFormCustomer] = useState(initialForm);
 
+    const { id } = useParams();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if (selectedCustomer) {
+        if (id && selectedCustomer) {
             setFormCustomer(selectedCustomer);
         } else {
             setFormCustomer(initialForm);
         }
-    }, [selectedCustomer])
+    }, [id, selectedCustomer])
 
     const changeHandler = function (event) {
         const { name, value } = event.target;
@@ -24,7 +28,7 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
     const cancelButton = () => {
         setFormCustomer(initialForm);
         setSelectedCustomer(null);
-        setView('List'); //redirect
+        navigate("/list");
     }
 
     function postCustomer() {
@@ -77,7 +81,7 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
         }
         setFormCustomer(initialForm);
         setSelectedCustomer(null);
-        setView('List'); //redirect
+        navigate("/list");
     }
 
 

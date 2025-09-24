@@ -7,9 +7,9 @@ import Footer from './components/Footer.jsx';
 function App() {
   return (
     <div className='app'>
-      <Header />
-      <Body />
-      <Footer />
+        <Header />
+        <Body />
+        <Footer />
     </div>
   )
 }

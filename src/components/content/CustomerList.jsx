@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/CustomerList.css';
 
 
@@ -18,9 +19,11 @@ function CustomerList({ setSelectedCustomer, setView }) {
 
     const resetFormCustomer = () => setFormCustomer(initialFormCustomer);
 
+    const navigate = useNavigate();
+
     async function getCustomerList(pageNum = page) {
         const custo = fetch(`http://localhost:4000/customers?_page=${pageNum}&_limit=${pageSize}`)
-            .then(res =>  res.json())
+            .then(res => res.json())
             .then(data => {
                 console.log(data)
                 setCustomers(data)
@@ -29,6 +32,7 @@ function CustomerList({ setSelectedCustomer, setView }) {
             .catch(err => console.error("error fetching:", err));
 
     }
+
     useEffect(() => {
         getCustomerList()
     }, [page]);
@@ -77,9 +81,9 @@ function CustomerList({ setSelectedCustomer, setView }) {
     const updateCustomer = function () {
         if (validSelectedCustomerId()) {
             const cust = customers.find(c => c.id === selectCustomerId);
-            if (!cust) return;
+            if (!cust) navigate('/add');
             setSelectedCustomer(cust);
-            setView('Add');
+            navigate(`/update/${cust.id}`);
             console.log(`Navigating to ADD with customer id ${cust.id}`);
         }
     }
@@ -97,9 +101,11 @@ function CustomerList({ setSelectedCustomer, setView }) {
                     </tbody>
                 </table>
                 <ul className='CustomerList'>
-                    {customers.map((cust, index) => {
+                    {customers.map((cust) => {
                         return (
-                            <li key={cust.id} onClick={(_) => selectCustomer(cust.id)} className={(selectCustomerId == cust.id) ? 'selected' : ''}>
+                            <li key={cust.id} 
+                                onClick={(_) => selectCustomer(cust.id)} 
+                                className={(selectCustomerId == cust.id) ? 'selected' : ''}>
                                 {cust.id}, <span id='space'></span>
                                 {cust.name}, <span id='space'></span>
                                 {cust.email}, <span id='space'></span>
