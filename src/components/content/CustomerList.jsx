@@ -5,7 +5,7 @@ import '../../styles/CustomerList.css';
 
 
 
-function CustomerList({ setSelectedCustomer, setView }) {
+function CustomerList({ setSelectedCustomer }) {
 
     const initialFormCustomer = { id: -1, name: "", email: "", password: "" };
 
