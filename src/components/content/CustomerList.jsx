@@ -39,10 +39,10 @@ function CustomerList({ setSelectedCustomer, setView }) {
     }, [page]);
 
     const getCustomer = function (id) {
-        fetch(`http://localhost:4000/customers/${id}` , {method: "GET"})
-        .then(res => res.json())
-        .then(data => {return data})
-        .catch(err => console.error("error fetching", err));
+        fetch(`http://localhost:4000/customers/${id}`, { method: "GET" })
+            .then(res => res.json())
+            .then(data => { return data })
+            .catch(err => console.error("error fetching", err));
     }
 
 
@@ -101,17 +101,33 @@ function CustomerList({ setSelectedCustomer, setView }) {
                 <h2>Wizard List</h2>
                 <table className='table'>
                     <thead>
-                        <tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th></tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr><td>A</td><td>B</td><td>C</td><td>D</td></tr>
+                        {customers.map((cust) => (
+                            <tr
+                                key={cust.id}
+                                onClick={() => selectCustomer(cust.id)}
+                                className={selectCustomerId == cust.id ? 'selected' : ''}
+                            >
+                                <td>{cust.id}</td>
+                                <td>{cust.name}</td>
+                                <td>{cust.email}</td>
+                                <td>{cust.password}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 <ul className='CustomerList'>
                     {customers.map((cust) => {
                         return (
-                            <li key={cust.id} 
-                                onClick={(_) => selectCustomer(cust.id)} 
+                            <li key={cust.id}
+                                onClick={(_) => selectCustomer(cust.id)}
                                 className={(selectCustomerId == cust.id) ? 'selected' : ''}>
                                 {cust.id}, <span id='space'></span>
                                 {cust.name}, <span id='space'></span>
@@ -123,7 +139,7 @@ function CustomerList({ setSelectedCustomer, setView }) {
                     }
                 </ul>
                 <div>
-                    <button id="fetch-btn" onClick={() => {setPage(1); getCustomerList();}}>FETCH CUSTOMERS</button>
+                    <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>FETCH CUSTOMERS</button>
                     <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
