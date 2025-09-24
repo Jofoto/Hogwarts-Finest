@@ -1,63 +1,73 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { Route, Routes, Navigate, NavLink } from 'react-router-dom';
 
 import Home from './content/Home.jsx';
 import Add from './content/Add.jsx';
-import Search from './content/Search.jsx';
+import Login from './content/Login.jsx';
 import CustomerList from './content/CustomerList.jsx';
 
 import '../styles/Body.css';
 
 function Body() {
-
-  const [view, setView] = useState('Home');
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const highestCustomerId = function () {
     return customers.length > 0 ? Math.max(...customers.map(c => c.id)) : 0;
-}
+  }
 
   return (
     <div>
       <div className='body'>
         <aside className='aside'>
           <nav>
-            <li className={view === 'Home' ? 'active' : ''} onClick={() => setView('Home')}>Home</li>
-            <li className={view === 'Add' ? 'active' : ''} onClick={() => setView('Add')}>Add / Update</li>
-            <li className={view === 'List' ? 'active' : ''} onClick={() => setView('List')}>List</li>
-            <li className={view === 'Search' ? 'active' : ''} onClick={() => setView('Search')}>Search</li>
+            <li><NavLink to="/home" style={{textDecoration: "none", color: "inherit"}}>Home</NavLink></li>
+            <li><NavLink to="/add" style={{textDecoration: "none", color: "inherit"}}>Add</NavLink></li>
+            <li><NavLink to="/list" style={{textDecoration: "none", color: "inherit"}}>List</NavLink></li>
+            <li><NavLink to="/Login" style={{textDecoration: "none", color: "inherit"}}>Login</NavLink></li>
           </nav>
         </aside>
       </div>
 
       <main className='main'>
+        <Routes>
+
+        {/* Redirect root to /home */}
+        <Route path="/" element={<Navigate to="/home" />} />
+
         {/* Home */}
-        {view === 'Home' && (
-          <Home />
-        )}
+        <Route path="/home" element={<Home/>}/>
 
         {/* Add */}
-        {view === 'Add' && (
+        <Route path="/add" element={
           <Add
-            selectedCustomer={selectedCustomer} 
-            setSelectedCustomer={setSelectedCustomer}
-            setView={setView}
-            customers={customers}
-            highestCustomerId={highestCustomerId} 
-        />
-        )}
+          selectedCustomer={selectedCustomer} 
+          setSelectedCustomer={setSelectedCustomer}
+          customers={customers}
+          highestCustomerId={highestCustomerId} 
+          />
+        }/>
+
+        <Route path="/update/:id" element={
+          <Add
+          selectedCustomer={selectedCustomer} 
+          setSelectedCustomer={setSelectedCustomer}
+          customers={customers}
+          highestCustomerId={highestCustomerId} 
+          />
+        }/>
 
         {/* List */}
-        {view === 'List' && (
+        <Route path="/list" element={
           <CustomerList 
-            customers={customers}
-            setSelectedCustomer={setSelectedCustomer}
-            setView={setView}/>
-        )}
+          customers={customers}
+          setSelectedCustomer={setSelectedCustomer}
+          />
+        }/>
 
-        {view === 'Search' && (
-          <Search />
-        )}
+        {/* Login */}
+        <Route path="/Login" element={<Login/>} />
+        </Routes>
       </main>
     </div>
   )

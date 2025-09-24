@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId }) {
+function Add({ selectedCustomer, setSelectedCustomer, highestCustomerId }) {
     const initialForm = { id: -1, name: "", email: "", password: "" };
     const [formCustomer, setFormCustomer] = useState(initialForm);
 
+    const { id } = useParams();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if (selectedCustomer) {
+        if (id && selectedCustomer) {
             setFormCustomer(selectedCustomer);
         } else {
             setFormCustomer(initialForm);
         }
-    }, [selectedCustomer])
+    }, [id, selectedCustomer])
 
     const changeHandler = function (event) {
         const { name, value } = event.target;
@@ -24,7 +28,7 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
     const cancelButton = () => {
         setFormCustomer(initialForm);
         setSelectedCustomer(null);
-        setView('List'); //redirect
+        navigate("/list");
     }
 
     function postCustomer() {
@@ -62,7 +66,14 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
 
     }
 
-
+    const deleteCustomer = (id) => {
+        fetch(`http://localhost:4000/customers/${id}`, { method: "DELETE" })
+            .then(res => {
+                console.log(`Customer ${id} deleted`);
+            })
+            .catch(err => console.error("Error deleting:", err));
+        cancelButton();
+    }
 
     const addCustomer = function (e) {
         e.preventDefault();
@@ -77,7 +88,7 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
         }
         setFormCustomer(initialForm);
         setSelectedCustomer(null);
-        setView('List'); //redirect
+        navigate("/list");
     }
 
 
@@ -86,14 +97,15 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
             <section>
                 <h2>{formCustomer.id === -1 ? "Add Wizard" : "Update Wizard"}</h2>
                 <form onSubmit={addCustomer}>
-                    <label>Name</label>
-                    <input type="text" name="name" value={formCustomer.name} onChange={changeHandler} />
-                    <label>Email</label>
-                    <input type="text" name="email" value={formCustomer.email} onChange={changeHandler} />
-                    <label>Password</label>
-                    <input type="text" name="password" value={formCustomer.password} onChange={changeHandler} />
+                    <label htmlFor="name">Name</label>
+                    <input type="text" id="name" name="name" value={formCustomer.name} onChange={changeHandler} />
+                    <label htmlFor="email">Email</label>
+                    <input type="text" id="email" name="email" value={formCustomer.email} onChange={changeHandler} />
+                    <label htmlFor="password">Password</label>
+                    <input type="text" id="password" name="password" value={formCustomer.password} onChange={changeHandler} />
 
                     <button type="submit">{formCustomer.id === -1 ? "ADD CUSTOMER" : "UPDATE CUSTOMER"}</button>
+                    <button id="delete-btn" onClickCapture={() => deleteCustomer(id)} disabled={formCustomer.id === -1}>DELETE CUSTOMER</button>
                     <button onClick={cancelButton} disabled={formCustomer.id === -1}>CANCEL</button>
                 </form>
             </section>
