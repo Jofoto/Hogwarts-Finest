@@ -58,9 +58,10 @@ function CustomerList({ setSelectedCustomer, setView }) {
         }
     }
 
-    const validSelectedCustomerId = function (caller = '') {
+    const validSelectedCustomerId = function (caller = '', flag = false) {
         const isValid = customers.some(c => c.id === selectCustomerId);
-        console.log(`Validate selectedCustomerId: ${isValid}. Caller: ${caller}`);
+        if (flag)
+            console.log(`Validate selectedCustomerId: ${isValid}. Caller: ${caller}`);
         return isValid;
     }
 
@@ -86,6 +87,11 @@ function CustomerList({ setSelectedCustomer, setView }) {
             navigate(`/update/${cust.id}`);
             console.log(`Navigating to ADD with customer id ${cust.id}`);
         }
+    }
+
+    const addCustomer = function () {
+        navigate(`/add`);
+        console.log(`Navigating to the ADD page`);
     }
 
     return (
@@ -116,7 +122,7 @@ function CustomerList({ setSelectedCustomer, setView }) {
                     }
                 </ul>
                 <div>
-                    <h3>Customer Functionality</h3>
+                    <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
                     <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL</button>
