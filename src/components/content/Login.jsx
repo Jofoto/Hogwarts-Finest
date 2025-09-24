@@ -6,6 +6,7 @@ function Login({ setIsLoggedIn }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     // Hardcoded admin credentials
     const ADMIN_EMAIL = 'admin@hogwarts.edu';
@@ -17,6 +18,8 @@ function Login({ setIsLoggedIn }) {
             setError('');
             // Redirect to admin page or dashboard
             console.log(`Login succes ;)`);
+            setIsLoggedIn(true);
+            navigate('/'); // Redirect to landing page
         } else {
             setError('Invalid credentials');
         }
