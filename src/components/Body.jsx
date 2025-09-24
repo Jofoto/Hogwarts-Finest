@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Route, Routes, Navigate, Link } from 'react-router'
+import { Route, Routes, Navigate, Link, NavLink } from 'react-router'
 
 import Home from './content/Home.jsx';
 import Add from './content/Add.jsx';
@@ -21,10 +21,10 @@ function Body() {
       <div className='body'>
         <aside className='aside'>
           <nav>
-            <li><Link to="/home" style={{textDecoration: "none", color: "inherit"}}>Home</Link></li>
-            <li><Link to="/add" style={{textDecoration: "none", color: "inherit"}}>Add</Link></li>
-            <li><Link to="/list" style={{textDecoration: "none", color: "inherit"}}>List</Link></li>
-            <li><Link to="/search" style={{textDecoration: "none", color: "inherit"}}>Search</Link></li>
+            <li><NavLink to="/home" style={{textDecoration: "none", color: "inherit"}}>Home</NavLink></li>
+            <li><NavLink to="/add" style={{textDecoration: "none", color: "inherit"}}>Add</NavLink></li>
+            <li><NavLink to="/list" style={{textDecoration: "none", color: "inherit"}}>List</NavLink></li>
+            <li><NavLink to="/search" style={{textDecoration: "none", color: "inherit"}}>Search</NavLink></li>
           </nav>
         </aside>
       </div>
