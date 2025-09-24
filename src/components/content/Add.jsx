@@ -66,7 +66,14 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
 
     }
 
-
+    const deleteCustomer = (id) => {
+        fetch(`http://localhost:4000/customers/${id}`, { method: "DELETE" })
+            .then(res => {
+                console.log(`Customer ${id} deleted`);
+            })
+            .catch(err => console.error("Error deleting:", err));
+        cancelButton();
+    }
 
     const addCustomer = function (e) {
         e.preventDefault();
@@ -98,6 +105,7 @@ function Add({ selectedCustomer, setSelectedCustomer, setView, highestCustomerId
                     <input type="text" name="password" value={formCustomer.password} onChange={changeHandler} />
 
                     <button type="submit">{formCustomer.id === -1 ? "ADD CUSTOMER" : "UPDATE CUSTOMER"}</button>
+                    <button id="delete-btn" onClickCapture={() => deleteCustomer(id)} disabled={formCustomer.id === -1}>DELETE CUSTOMER</button>
                     <button onClick={cancelButton} disabled={formCustomer.id === -1}>CANCEL</button>
                 </form>
             </section>
