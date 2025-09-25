@@ -5,7 +5,7 @@ import '../../styles/CustomerList.css';
 
 
 
-function CustomerList({ setSelectedCustomer }) {
+function CustomerList({ setSelectedCustomer, isLoggedIn }) {
 
     const initialFormCustomer = { id: -1, name: "", email: "", password: "" };
 
@@ -148,16 +148,19 @@ function CustomerList({ setSelectedCustomer }) {
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
                     <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL SELECTION</button> */}
-                        {/* ))}   
+                {/* ))}   
                     </tbody>
                 </table> */}
-                
                 <div className="actions">
-                    <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>FETCH CUSTOMERS</button>
-                    <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
-                    <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>Edit Customer</button>
-                    <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>Delete Customer</button>
-                    <button id="cancel-btn" onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>Cancel</button>
+                    {isLoggedIn && (
+                        <>
+                            <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>FETCH CUSTOMERS</button>
+                            <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
+                            <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>Edit Customer</button>
+                            <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>Delete Customer</button>
+                            <button id="cancel-btn" onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>Cancel</button>
+                        </>
+                    )}
                     <button id="prev-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Previous 10</button>
                     <button id="next-btn" onClick={() => setPage(p => Math.max(1, p + 1))} disabled={!morePages}>Next 10</button>
                 </div>
