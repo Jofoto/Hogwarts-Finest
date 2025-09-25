@@ -113,3 +113,33 @@ section h2::after {
 }
 
 section { max-width: 1100px; margin:0 auto; }
+
+#fetch-btn {
+  background-color: #6a5acd;  
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#fetch-btn:hover {
+  background-color: #483d8b; 
+}
+
+#add-btn {
+  background-color: #32cd32;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#add-btn:hover {
+  background-color: #228b22;  
+}

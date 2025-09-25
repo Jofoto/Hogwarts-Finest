@@ -154,8 +154,8 @@ function CustomerList({ setSelectedCustomer, isLoggedIn }) {
                 <div className="actions">
                     {isLoggedIn && (
                         <>
-                            <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>FETCH CUSTOMERS</button>
-                            <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
+                            <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>Fetch Customers</button>
+                            <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>Add Customer</button>
                             <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>Edit Customer</button>
                             <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>Delete Customer</button>
                             <button id="cancel-btn" onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>Cancel</button>

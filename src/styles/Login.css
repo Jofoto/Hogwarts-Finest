@@ -1,0 +1,85 @@
+.login {
+    max-width: 460px;
+    margin: 28px auto 40px;
+    padding: 0 16px;
+    color: #1f2544;
+}
+
+.login h2 {
+    text-align: center;
+    margin: 0 0 14px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #6a1b9a;
+}
+
+.login h2::after {
+    content: "";
+    display:block;
+    width: 70px;
+    height: 3px;
+    background: #6a1b9a;
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+.login .error {
+    display: none;
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    background: #ffecec;
+    color: #9b1c1c;
+    border: 1px solid #ffd0d0;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100%;
+
+}
+
+.login .error:not(:empty) {
+    display:block; /* only shows when there is text in the text box*/
+}
+
+.login label{
+    font-weight:600;
+    color:#5a2aa6;
+    margin-bottom:6px;
+    display:block;
+  }
+  .login input{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #d9d9e3;
+    border-radius:10px;
+    background:#fbfbff;
+    font: inherit;
+  }
+  .login input:focus{
+    outline:none;
+    border-color:#6a1b9a;
+    box-shadow:0 0 0 3px #6a1b9a22;
+    background:#fff;
+  }
+  
+  /* Submit button */
+  .login button[type="submit"]{
+    margin-top:6px;
+    align-self:flex-end;              /* keep it to the right */
+    padding:10px 16px;
+    border-radius:10px;
+    border:1px solid transparent;
+    background:#6a1b9a;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    transition: transform .12s, box-shadow .12s, filter .12s, opacity .12s;
+  }
+  .login button[type="submit"]:hover{
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow:0 10px 22px rgba(0,0,0,.08);
+  }
+  .login button[type="submit"]:disabled{
+    opacity:.55; cursor:not-allowed; transform:none; box-shadow:none;
+  }
+  
