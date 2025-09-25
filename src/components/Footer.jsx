@@ -7,7 +7,8 @@ function Footer() {
             <footer className='footer'>
                 <hr />
                 <div>
-                    {currentYear} &copy; Created by Wizards' Finest <br />
+                    {currentYear} &copy; Created by Wizards' Finest <br /><br />
+                    *Logos and images are AI generated.
                 </div>
             </footer>
         </>

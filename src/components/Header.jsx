@@ -1,5 +1,5 @@
 import '../styles/Body.css';
-import hlogo from '../assets/HLogo.jpg';
+import hlogo from '../assets/HLogo.png';
 
 function Header() {
     return (
