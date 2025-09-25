@@ -109,12 +109,16 @@ function CustomerList({ setSelectedCustomer }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {customers.map((cust) => (
+                        {/* {customers.map((cust) => (
                             <tr
                                 key={cust.id}
                                 onClick={() => selectCustomer(cust.id)}
                                 className={selectCustomerId == cust.id ? 'selected' : ''}
-                            >
+                            > */}
+                        {customers.map((cust, idx) => (
+                            <tr key={cust.id}
+                                onClick={(_) => selectCustomer(cust.id)}
+                                className={(selectCustomerId == cust.id) ? 'selected' : ''}>
                                 <td>{cust.id}</td>
                                 <td>{cust.name}</td>
                                 <td>{cust.email}</td>
@@ -123,7 +127,7 @@ function CustomerList({ setSelectedCustomer }) {
                         ))}
                     </tbody>
                 </table>
-                <ul className='CustomerList'>
+                {/* <ul className='CustomerList'>
                     {customers.map((cust) => {
                         return (
                             <li key={cust.id}
@@ -137,13 +141,23 @@ function CustomerList({ setSelectedCustomer }) {
                         );
                     })
                     }
-                </ul>
-                <div>
+                </ul> */}
+                {/* <div>
                     <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>FETCH CUSTOMERS</button>
                     <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
                     <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>EDIT CUSTOMER</button>
                     <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>DELETE CUSTOMER</button>
-                    <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL SELECTION</button>
+                    <button onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>CANCEL SELECTION</button> */}
+                        {/* ))}   
+                    </tbody>
+                </table> */}
+                
+                <div className="actions">
+                    <button id="fetch-btn" onClick={() => { setPage(1); getCustomerList(); }}>FETCH CUSTOMERS</button>
+                    <button id="add-btn" onClick={addCustomer} disabled={validSelectedCustomerId('Add Btn')}>ADD CUSTOMER</button>
+                    <button id="edit-btn" onClick={updateCustomer} disabled={!validSelectedCustomerId('Edit Btn')}>Edit Customer</button>
+                    <button id="delete-btn" onClickCapture={() => deleteCustomer(selectCustomerId)} disabled={!validSelectedCustomerId('Delete Btn')}>Delete Customer</button>
+                    <button id="cancel-btn" onClick={(_) => selectCustomer(selectCustomerId)} disabled={selectCustomerId === -1}>Cancel</button>
                     <button id="prev-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Previous 10</button>
                     <button id="next-btn" onClick={() => setPage(p => Math.max(1, p + 1))} disabled={!morePages}>Next 10</button>
                 </div>

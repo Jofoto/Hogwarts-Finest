@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import '../../styles/Add.css';
 
 function Add({ selectedCustomer, setSelectedCustomer, highestCustomerId }) {
     const initialForm = { id: -1, name: "", email: "", password: "" };
@@ -58,11 +59,11 @@ function Add({ selectedCustomer, setSelectedCustomer, highestCustomerId }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formCustomer)
         })
-        .then(res => res.json())
-        .then(updated => {
-            console.log(`Customer ${id} updated`);
-        })
-        .catch(err => console.error("Update failed:", err));
+            .then(res => res.json())
+            .then(updated => {
+                console.log(`Customer ${id} updated`);
+            })
+            .catch(err => console.error("Update failed:", err));
 
     }
 
@@ -97,7 +98,7 @@ function Add({ selectedCustomer, setSelectedCustomer, highestCustomerId }) {
             <section>
                 <h2>{formCustomer.id === -1 ? "Add Wizard" : "Update Wizard"}</h2>
                 <form onSubmit={addCustomer}>
-                    <label htmlFor="name">Name</label>
+                    {/* <label htmlFor="name">Name</label>
                     <input type="text" id="name" name="name" value={formCustomer.name} onChange={changeHandler} />
                     <label htmlFor="email">Email</label>
                     <input type="text" id="email" name="email" value={formCustomer.email} onChange={changeHandler} />
@@ -106,7 +107,28 @@ function Add({ selectedCustomer, setSelectedCustomer, highestCustomerId }) {
 
                     <button type="submit">{formCustomer.id === -1 ? "ADD CUSTOMER" : "UPDATE CUSTOMER"}</button>
                     <button id="delete-btn" onClickCapture={() => deleteCustomer(id)} disabled={formCustomer.id === -1}>DELETE CUSTOMER</button>
-                    <button onClick={cancelButton} disabled={formCustomer.id === -1}>CANCEL</button>
+                    <button onClick={cancelButton} disabled={formCustomer.id === -1}>CANCEL</button> */}
+
+                    <div className="field">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" name="name" value={formCustomer.name} onChange={changeHandler} />
+                    </div>
+
+                    <div className="field">
+                        <label htmlFor="email">Email</label>
+                        <input type="text" id="email" name="email" value={formCustomer.email} onChange={changeHandler} />
+                    </div>
+
+                    <div className="field">
+                        <label htmlFor="password">Password</label>
+                        <input type="text" id="password" name="password" value={formCustomer.password} onChange={changeHandler} />
+                    </div>
+                    
+                    <div className="actions">
+                        <button type="submit">{formCustomer.id === -1 ? "ADD CUSTOMER" : "UPDATE CUSTOMER"}</button>
+                        <button id="delete-btn" onClickCapture={() => deleteCustomer(id)} disabled={formCustomer.id === -1}>DELETE CUSTOMER</button>
+                        <button onClick={cancelButton} disabled={formCustomer.id === -1}>CANCEL</button>
+                    </div>
                 </form>
             </section>
         </>
